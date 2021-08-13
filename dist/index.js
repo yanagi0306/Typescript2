@@ -4,15 +4,16 @@ class ObjectWrapper {
      * 引数のオブジェクトのコピーを this._objに設定
      */
     constructor(_obj) {
-        this._obj = {};
-        this._obj = _obj;
+        const copyObject = Object.assign({}, _obj);
+        this._obj = copyObject;
     }
     /**
      * this._objのコピーを返却
      * @return Object
      */
     get obj() {
-        return this._obj;
+        const obj = Object.assign({}, this._obj);
+        return obj;
     }
     /**
      * this._obj[key] に valを設定。keyがthis._objに存在しない場合、falseを返却
@@ -34,28 +35,19 @@ class ObjectWrapper {
      * @param key オブジェクトのキー
      */
     get(key) {
-        if (key in this._obj) {
-            return this._obj[key];
-        }
-        else {
-            return undefined;
-        }
+        const obj = Object.assign({}, this._obj);
+        return obj[key];
     }
     /**
      * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
      */
     findKeys(val) {
         const _objKeys = [];
-        if (typeof val === 'string') {
-            Object.keys(this._obj).forEach((key) => {
-                if (this._obj[key] === val) {
-                    _objKeys.push(key);
-                }
-            });
-        }
-        else {
-            return _objKeys;
-        }
+        Object.keys(this._obj).forEach((key) => {
+            if (this._obj[key] === val) {
+                _objKeys.push(key);
+            }
+        });
         return _objKeys;
     }
 }
@@ -71,15 +63,18 @@ if (wrappedObj1.obj.a === '01') {
 else {
     console.error('NG: get obj()');
 }
-if (wrappedObj1.set('c', '03') === false &&
-    wrappedObj1.set('b', '04') === true &&
+if (
+// wrappedObj1.set('c', '03') === false &&     <==型安全にした結果コンパイルエラーになるためコメントアウト
+wrappedObj1.set('b', '04') === true &&
     wrappedObj1.obj.b === '04') {
     console.log('OK: set(key, val)');
 }
 else {
     console.error('NG: set(key, val)');
 }
-if (wrappedObj1.get('b') === '04' && wrappedObj1.get('c') === undefined) {
+if (wrappedObj1.get('b') === '04'
+// && wrappedObj1.get('c') === undefined      <==型安全にした結果コンパイルエラーになるためコメントアウト
+) {
     console.log('OK: get(key)');
 }
 else {
