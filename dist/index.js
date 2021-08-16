@@ -42,13 +42,14 @@ class ObjectWrapper {
      * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
      */
     findKeys(val) {
-        const _objKeys = [];
-        Object.keys(this._obj).forEach((key) => {
-            if (this._obj[key] === val) {
-                _objKeys.push(key);
+        const findKeys = [];
+        const objKeys = Object.keys(this._obj);
+        objKeys.forEach(Key => {
+            if (this._obj[Key] === val) {
+                findKeys.push(Key);
             }
         });
-        return _objKeys;
+        return findKeys;
     }
 }
 /**

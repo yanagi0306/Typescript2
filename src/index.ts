@@ -1,10 +1,10 @@
 interface Obj {
-  [Key:string]:string
+  [Key: string]: string;
 }
 
-class ObjectWrapper<T extends Obj,U extends keyof T> {
-  private _obj: T
 
+class ObjectWrapper<T extends Obj, U extends keyof T> {
+  private _obj: T;
   /***
    * 引数のオブジェクトのコピーを this._objに設定
    */
@@ -27,11 +27,10 @@ class ObjectWrapper<T extends Obj,U extends keyof T> {
    * @param key オブジェクトのキー
    * @param val オブジェクトの値
    */
-  set(key:U, val: T[U]): boolean {
-    if (key in this._obj ) {
+  set(key: U, val: T[U]): boolean {
+    if (key in this._obj) {
       this._obj[key] = val;
-      return true;  
-    
+      return true;
     } else {
       return false;
     }
@@ -42,25 +41,25 @@ class ObjectWrapper<T extends Obj,U extends keyof T> {
    * 指定のキーが存在しない場合 undefinedを返却
    * @param key オブジェクトのキー
    */
-  get(key:U) {
+  get(key: U) {
     const obj = Object.assign({}, this._obj);
-    return obj[key]
+    return obj[key];
   }
 
   /**
    * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
    */
-  findKeys(val:T[U]) {
-    const _objKeys: string[] = [];
-      Object.keys(this._obj).forEach((key) => {
-        if (this._obj[key] === val) {
-          _objKeys.push(key);
-        }
-      });
-     return _objKeys;
-    }
+  findKeys(val: T[U]) :Array<U>{
+    const findKeys: U[] = [];
+    const objKeys = Object.keys(this._obj) as Array<U>
+    objKeys.forEach(Key => {
+      if (this._obj[Key] === val) {
+        findKeys.push(Key)
+      }
+    })
+    return findKeys;
   }
-
+}
 
 /**
  * check script
@@ -85,7 +84,8 @@ if (
   console.error('NG: set(key, val)');
 }
 
-if (wrappedObj1.get('b') === '04'
+if (
+  wrappedObj1.get('b') === '04'
   // && wrappedObj1.get('c') === undefined      <==型安全にした結果コンパイルエラーになるためコメントアウト
 ) {
   console.log('OK: get(key)');
