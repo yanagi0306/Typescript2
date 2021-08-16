@@ -1,7 +1,6 @@
 interface Obj {
-  [Key: string]: string|number;
+  [Key: string]: string | number;
 }
-
 
 class ObjectWrapper<T extends Obj> {
   private _obj: T;
@@ -49,14 +48,14 @@ class ObjectWrapper<T extends Obj> {
   /**
    * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
    */
-  findKeys<K extends keyof T>(val: T[K]) :Array<K>{
+  findKeys<K extends keyof T>(val: T[K]): Array<K> {
     const findKeys: K[] = [];
-    const objKeys = Object.keys(this._obj) as Array<K>
-    objKeys.forEach(Key => {
+    const objKeys = Object.keys(this._obj) as Array<K>;
+    objKeys.forEach((Key) => {
       if (this._obj[Key] === val) {
-        findKeys.push(Key)
+        findKeys.push(Key);
       }
-    })
+    });
     return findKeys;
   }
 }
