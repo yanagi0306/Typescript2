@@ -1,9 +1,9 @@
 interface Obj {
-  [Key: string]: string;
+  [Key: string]: string|number;
 }
 
 
-class ObjectWrapper<T extends Obj, U extends keyof T> {
+class ObjectWrapper<T extends Obj> {
   private _obj: T;
   /***
    * 引数のオブジェクトのコピーを this._objに設定
@@ -27,7 +27,7 @@ class ObjectWrapper<T extends Obj, U extends keyof T> {
    * @param key オブジェクトのキー
    * @param val オブジェクトの値
    */
-  set(key: U, val: T[U]): boolean {
+  set<K extends keyof T>(key: K, val: T[K]): boolean {
     if (key in this._obj) {
       this._obj[key] = val;
       return true;
@@ -41,7 +41,7 @@ class ObjectWrapper<T extends Obj, U extends keyof T> {
    * 指定のキーが存在しない場合 undefinedを返却
    * @param key オブジェクトのキー
    */
-  get(key: U) {
+  get<K extends keyof T>(key: K) {
     const obj = Object.assign({}, this._obj);
     return obj[key];
   }
@@ -49,9 +49,9 @@ class ObjectWrapper<T extends Obj, U extends keyof T> {
   /**
    * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
    */
-  findKeys(val: T[U]) :Array<U>{
-    const findKeys: U[] = [];
-    const objKeys = Object.keys(this._obj) as Array<U>
+  findKeys<K extends keyof T>(val: T[K]) :Array<K>{
+    const findKeys: K[] = [];
+    const objKeys = Object.keys(this._obj) as Array<K>
     objKeys.forEach(Key => {
       if (this._obj[Key] === val) {
         findKeys.push(Key)
