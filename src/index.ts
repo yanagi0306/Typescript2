@@ -1,8 +1,4 @@
-interface Obj {
-  [Key: string]: string | number;
-}
-
-class ObjectWrapper<T extends Obj> {
+class ObjectWrapper<T extends Object> {
   private _obj: T;
   /***
    * 引数のオブジェクトのコピーを this._objに設定
